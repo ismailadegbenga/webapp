@@ -22,8 +22,8 @@ var (
 )
 
 func init() {
-		db = Connect(connString)
-	defer err := db.Close(context.Background())
+	db = Connect(connString)
+	defer db.Close(context.Background())
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Could not close database connection")
 	}
@@ -45,12 +45,12 @@ func Connect (cstring string) (conn *pgx.Conn) {
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to parse connection string: %v\n", err)
 	}
-	conn, err := pgx.Connect(context.Background(), config)
+	conn, err = pgx.Connect(context.Background(), config)
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "Unable to establish database connection: %v\n", err)
 		os.Exit(1)
 	}
-	return &conn
+	return
 }
 
 
@@ -72,6 +72,7 @@ type Contact struct {
 }
 
 type Contacts struct {
+	// struct for a list of contacts
 	Cs []*Contact{}
 }
 
